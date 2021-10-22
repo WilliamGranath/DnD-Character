@@ -143,10 +143,10 @@ function loot(item) {
 
 const character = {
 	//props
-	name: 'MetaTank',
-	str: 210,
-	int: 80,
-	agi: 120,
+	name: 'Poopihead',
+	str: 10,
+	int: 10,
+	agi: 10,
 	spec: specs[0],
 	weapon: weapons[0],
 	inventory: inventory,
