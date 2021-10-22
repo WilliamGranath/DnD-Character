@@ -21,6 +21,9 @@
 // console.log(emptyArray);
 
 // //Arrays indexeras frn 0-n
+
+document.addEventListener('DOMContentLoaded', function () {});
+
 const weaponToString = function () {
 	return `
         ${this.type}
@@ -140,97 +143,88 @@ function loot(item) {
 		return true;
 	}
 }
+function getRandomInt(max) {
+	return Math.floor(Math.random() * max);
+}
 
-const character = {
-	//props
-	name: 'Poopihead',
-	str: 10,
-	int: 10,
-	agi: 10,
-	spec: specs[0],
-	weapon: weapons[0],
-	inventory: inventory,
-	isMale: true,
+const createCharacter = function (name, spec, weapon, isMale) {
+	return {
+		//props
+		name: name,
+		str: getRandomInt(20),
+		int: getRandomInt(20),
+		agi: getRandomInt(20),
+		spec: spec,
+		weapon: weapon,
+		inventory: inventory,
+		isMale: isMale,
 
-	//methods
-	loot: loot,
-	getHealth: calcHealth,
-	getMana: function () {
-		// For every int our char gets 8.5 mana;
-		const mana = this.int * 8.5;
-		return mana;
-	},
-	getSpeed: getSpeed,
-	getWeaponDMG: getWeaponDMG,
-	toString: function () {
-		const { name, str, int, agi, spec, weapon, inventory, isMale } = this;
-		const health = this.getHealth(this);
-		const mana = this.getMana();
-		const speed = this.getSpeed();
-		const string = `Name: ${name}
-        Gender: ${isMale ? 'Man' : 'Woman'}
-        Health = ${health}
-        Mana = ${mana}
-        Speed ${speed}
-        Strength: ${str}
-        Intellect: ${int}
-        Agillity: ${agi}
-        Specialization: ${spec}
+		//methods
+		loot: loot,
+		getHealth: calcHealth,
+		getMana: function () {
+			// For every int our char gets 8.5 mana;
+			const mana = this.int * 8.5;
+			return mana;
+		},
+		getSpeed: getSpeed,
+		getWeaponDMG: getWeaponDMG,
+		toString: function () {
+			const { name, str, int, agi, spec, weapon, inventory, isMale } = this;
+			const health = this.getHealth(this);
+			const mana = this.getMana();
+			const speed = this.getSpeed();
+			const string = `
+			Name: ${name}<
+        	Gender: ${isMale ? 'Man' : 'Woman'}
+       		Health = ${health}
+        	Mana = ${mana}
+        	Speed ${speed}
+        	Strength: ${str}
+        	Intellect: ${int}
+        	Agillity: ${agi}
+        	Specialization: ${spec}
 
-        Main Weapon: ${weapon.toString()}
+        	<li>Main Weapon: ${weapon.toString()}</li>
 
-        Inventory: ${inventory.toString()}
+        	<li>Inventory: ${inventory.toString()}</li>
         `;
+			return string;
+			console.log(string);
+		},
 
-		console.log(string);
-	}
-
-	//dance
-	//printStats
+		toHTML_String: function () {
+			const { name, str, int, agi, spec, weapon, inventory, isMale } = this;
+			const health = this.getHealth(this);
+			const mana = this.getMana();
+			const speed = this.getSpeed();
+			const string = `
+			<li>Name: ${name}</li>
+        	<li>Gender: ${isMale ? 'Man' : 'Woman'}</li>
+       		<li>Health = ${health}</li>
+        	<li>Mana = ${mana}</li>
+        	<li>Speed ${speed}</li>
+        	<li>Strength: ${str}</li>
+        	<li>Intellect: ${int}</li>
+        	<li>Agillity: ${agi}</li>
+        	<li>Specialization: ${spec}</li>
+			<br/><br/>
+        	<li>Main Weapon: ${weapon.toString()}</li>
+			<br/><br/>
+        	<li>Inventory: ${inventory.toString()}</li>
+        `;
+			return string;
+			console.log(string);
+		}
+	};
 };
-character.getHealth();
-const dmg = character.getWeaponDMG(character);
-const mana = character.getMana();
-const speed = character.getSpeed();
-character.loot(items[2]);
-character.toString();
 
-// const character2 = {
-//     //props
-//     name: 'MetaTank',
-//     str: 201,
-//     int: 51,
-//     agi: 101,
-//     spec: specs[0],
-//     weapon: weapons[0],
-//     inventory: inventory,
-//     isMale: true,
-
-//     //methods
-//     getHealth: getHealth,
-//     // getMana,
-//     // getSpeed,
-//     // getWeaponDMG,
-//     // dance,
-//     // printStats,
-// };
-
-// const character3 = {
-//     //props
-//     name: 'MetaTank',
-//     str: 200,
-//     int: 50,
-//     agi: 100,
-//     spec: specs[0],
-//     weapon: weapons[0],
-//     inventory: inventory,
-//     isMale: true,
-
-//     //methods
-//     getHealth: getHealth,
-//     // getMana,
-//     // getSpeed,
-//     // getWeaponDMG,
-//     // dance,
-//     // printStats,
-// };
+// DOM man
+const createButton = document.querySelector('#create-character');
+createButton.addEventListener('click', function () {
+	const char2 = createCharacter('Wille', specs[0], weapons[0], true, inventory);
+	const string = char2.toString();
+	console.log(string);
+	const unorderedList = document.querySelector('#new-character');
+	unorderedList.innerHTML = char2.toHTML_String();
+});
